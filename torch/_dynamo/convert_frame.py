@@ -1365,7 +1365,7 @@ class CatchErrorsWrapper:
         if frame.f_code.co_filename == "<string>" and frame.f_code.co_name == "__new__":
             # nametuple constructor
             return None
-        if config._get_optimize_ddp_mode() == "ddp_optimizer":
+        if torch._dynamo.utils.get_optimize_ddp_mode() == "ddp_optimizer":
             ddp_module = DistributedDataParallel._get_active_ddp_module()
             if ddp_module:
                 with compile_lock:
