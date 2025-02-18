@@ -662,7 +662,7 @@ class BuiltinVariable(VariableTracker):
                         ),
                         (
                             (variables.ExceptionVariable, variables.ExceptionVariable),
-                            lambda tx, l, r: ConstantVariable(op(l, r))
+                            lambda tx, l, r: ConstantVariable(op(l, r)),
                         ),
                     ]
                 )
@@ -1890,6 +1890,7 @@ class BuiltinVariable(VariableTracker):
                 variables.PlacementVariable,
                 variables.NamedTupleVariable,
                 variables.UserDefinedObjectVariable,
+                variables.ExceptionVariable,
             ),
         ):
             return obj.call_method(tx, "__setattr__", [name_var, val], {})
