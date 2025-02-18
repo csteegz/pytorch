@@ -660,6 +660,10 @@ class BuiltinVariable(VariableTracker):
                             (VariableTracker, SymNodeVariable),
                             op_var._comparison_with_symnode,
                         ),
+                        (
+                            (variables.ExceptionVariable, variables.ExceptionVariable),
+                            lambda tx, l, r: ConstantVariable(op(l, r))
+                        ),
                     ]
                 )
 
@@ -668,6 +672,8 @@ class BuiltinVariable(VariableTracker):
                     # and True for `is` and `is not`, respectively
                     if type(left) is not type(right):
                         return ConstantVariable.create(op.__name__ != "is_")
+                    if left is right:
+                        return ConstantVariable.create(op(left, right))
 
                 result.append(((VariableTracker, VariableTracker), handle_is))
 
