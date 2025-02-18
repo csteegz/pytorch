@@ -887,7 +887,7 @@ class BuiltinVariable(VariableTracker):
                             *[x.as_python_constant() for x in args],
                         )
                     except Exception as exc:
-                        unimplemented(f"constant fold exception: {repr(exc)}")
+                        raise_observed_exception(type(exc), tx)
                     return VariableTracker.build(tx, res)
 
             else:
