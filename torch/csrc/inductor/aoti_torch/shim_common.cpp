@@ -1230,7 +1230,13 @@ void aoti_torch_save_tensor_handle(
   at::Tensor* t = tensor_handle_to_tensor_pointer(self);
 #ifndef C10_MOBILE
   // Save tensor to tmp .pt file for tensors and can be torch.load'ed later
-  auto cwd = c10::filesystem::current_path();
+  c10::filesystem::path cwd;
+  char* envVar = std::getenv("AOT_INDUCTOR_DEBUG_INTERMEDIATE_VALUE_DIR");
+  if (envVar != nullptr) {
+    cwd = c10::filesystem::path(envVar);
+  } else {
+    cwd = c10::filesystem::current_path();
+  }
   auto tmp_folder = cwd / "tmp" / "aoti_torch";
   if (!c10::filesystem::exists(tmp_folder)) {
     std::cout
